@@ -8,20 +8,20 @@ const int glutWindowHeight = 600;
 const double M_PI = 3.14159265359;
 const double PH_G = 0.6;
 using namespace std;
-class C_figura;
-vector<C_figura*> vec_figur;
+
+
 class C_figura
 {
 public:
 	double w, h;//wymiary	
 	double x, y;//polozenie
-
-	void DrawRectangle(double a, double b, double r, double g, double blue)
+	double red, green, blue;
+	void DrawRectangle(double a, double b)
 	{
 	//	glPushMatrix();
-	//glTranslated(x, y, 0);
 
-		glColor3d(r, g, blue);
+
+		glColor3d(red, green, blue);
 
 		glBegin(GL_POLYGON);
 		{
@@ -42,6 +42,8 @@ public:
 	
 };
 
+vector<C_figura*> vec_figur;
+class C_bullet;
 class C_czolg : public C_figura
 {
 
@@ -56,7 +58,9 @@ public:
 		y = _y;
 		w = wys;
 		h = szer;
-		
+		red = 0.4;
+		green = 0.4;
+		blue = 0.4;
 	}
 
 	void Draw()
@@ -65,25 +69,29 @@ public:
 
 		glPushMatrix();
 		glTranslated(x, y, 0);
-		DrawRectangle(w, h, 0.4, 0.4, 0.4); //body
+		DrawRectangle(w, h); //body
 
-		
+
 		glPushMatrix();
 		glTranslated(0, h / 2 + h / 4, 0);
-		DrawRectangle(w / 2, h / 2, 0.4, 0.4, 0.4); //wieza
+		DrawRectangle(w / 2, h / 2); //wieza
 		glPushMatrix();
 		glRotated(angle, 0, 0, 1); //obrot 
 		glPushMatrix();
 		glTranslated(w / 2, 0, 0);
-		DrawRectangle(w / 1.3, h / 10, 0.4, 0.4, 0.4); //i lufa
-		
+		DrawRectangle(w / 1.3, h / 10); //i lufa
+
 		glPopMatrix();
 		glPopMatrix();
 		glPopMatrix();
 
 		glPopMatrix();
-
+		glPopMatrix();
 	}
+
+	
+	void trafiony(C_bullet& pocisk);
+
 };
 
 class C_bullet : public C_figura
@@ -106,7 +114,9 @@ public:
 		y = czolg.y + 3 * czolg.h / 4 + (czolg.w / 1.3) * sin(czolg.angle * M_PI / 180); 
 		time = 0;
 		czy_leci = false;
-		kat_strzalu = 0;
+		red = 1;
+		green = 0;
+		blue = 0;
 	}
 	
 
@@ -118,6 +128,10 @@ public:
 			x += 0.2* time * cos(kat_strzalu* M_PI / 180);
 			y += 0.2* time * sin(kat_strzalu* M_PI / 180) - (PH_G* (time * time)) / 2;
 
+			glPushMatrix();
+			glTranslated(x, y, 0);
+			DrawRectangle(0.05, 0.05);
+			glPopMatrix();
 		
 		}
 		else
@@ -128,27 +142,29 @@ public:
 			//pozycja srodka czolgu + polowa wysokosci (do styku wieza/korpus) + polowa wiezy + dl lufy * sin kata (pozycja y konca lufy)
 			y = czolg->y + 3 * czolg->h / 4 + (czolg->w / 1.4) *sin(czolg->angle * M_PI / 180);
 		}
-		glPushMatrix();
-		glTranslated(x, y, 0);
-		DrawRectangle(0.1, 0.1,1,0,0);
-		glPopMatrix();
+	
 
 	}
-
-	/*void lec()
-	{
-		x += 800 * time * cos(czolg->angle);
-		y += 800 * time * sin(czolg->angle) - (PH_G* (time * time)) / 2;
-	}*/
 
 	~C_bullet(){}
 };
 
-C_czolg *czolg1 = new C_czolg(0.25, 0.125, -1, 0);
-C_czolg *czolg2 = new C_czolg(0.20, 0.120, 1, 0);
-C_czolg *czolg3 = new C_czolg(0.1, 0.100, 0, 0);
-C_bullet *bullet1 = new C_bullet(*czolg1);
-C_bullet *bullet2 = new C_bullet(*czolg2);
+void C_czolg::trafiony(C_bullet& pocisk)
+{
+	if (pocisk.x > x - w / 2 && pocisk.x < x + w / 2 && pocisk.y > y - h / 2 && pocisk.y < y + (3 * h) / 4)
+	{
+		red = 1;
+		green = 0;
+		blue = 0;
+		pocisk.czy_leci = false;
+	}
+
+}
+
+C_czolg *czolg1= new C_czolg(0.25, 0.125, -1, 0);
+C_czolg *czolg2= new C_czolg (0.20, 0.120, 1, 0);
+C_bullet *bullet1=new C_bullet(*czolg1);
+C_bullet *bullet2=new C_bullet(*czolg2);
 
 
 
@@ -158,7 +174,7 @@ bool keyStates[256];
 
 void utworz_powiazania()
 {	
-	
+	czolg2->angle = 18000;
 	bullet1->czolg = czolg1;
 	bullet2->czolg = czolg2;
 	
@@ -197,7 +213,8 @@ void Timer1(int t)
 
 	lec(*bullet1);
 	lec(*bullet2);
-
+	czolg1->trafiony(*bullet2);
+	czolg2->trafiony(*bullet1);
 	glutPostRedisplay();
 
 	// nastêpne wywo³anie funkcji timera
@@ -218,13 +235,15 @@ void keyPressed(unsigned char key, int x, int y)
 
 	case 'a':
 	{
-		czolg1->x -= 0.01;
+		if (czolg1->x >-3.2)
+			czolg1->x -= 0.01;
 		break;
 	}
 
 	case 'd':
 	{
-		czolg1->x += 0.01;
+		if (czolg1->x <3.2)
+			czolg1->x += 0.01;
 		break;
 	}
 
@@ -255,13 +274,15 @@ void keyPressed(unsigned char key, int x, int y)
 		
 	case 'j':
 	{
-		czolg2->x -= 0.01;
+		if (czolg1->y <3.2 && czolg1->y >-3.2)
+			czolg2->x -= 0.01;
 		break;
 	}
 
 	case 'l':
 	{
-		czolg2->x += 0.01;
+		if (czolg1->y <3.2 && czolg1->y >-3.2)
+			czolg2->x += 0.01;
 		break;
 	}
 
@@ -359,21 +380,22 @@ void draw_bg(void)
 	glBegin(GL_POLYGON);
 	{
 
-		glVertex3d(3, 1, 0);
-		glVertex3d(3, -3, 0);
-		glVertex3d(-3, -3, 0);
-		glVertex3d(-3, 1, 0);
+		glVertex3d(3.5, 0.01, 0);
+		glVertex3d(3.5, -3.5, 0);
+		glVertex3d(-3.5, -3.5, 0);
+		glVertex3d(-3.5, 0.01, 0);
 
 	}
 	glPopMatrix();
 }
 static void display()
 {
+	
 	// wyczyszenie sceny
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	keyOperations();
-
+	//draw_bg();
 	glPushMatrix();
 	
 	for ( int i=0; i < vec_figur.size(); i++)
@@ -381,9 +403,9 @@ static void display()
 		vec_figur[i]->Draw();
 	}
 
-	//draw_bg();
 	
-	cout << czolg1->angle << bullet1->kat_strzalu << endl;
+	
+
 	
 	
 	glPopMatrix();
