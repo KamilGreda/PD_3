@@ -1,13 +1,30 @@
-﻿Build started 2015-03-27 14:13:07.
+﻿Build started 2015-03-29 12:23:50.
      1>Project "S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\ZadanieDomowe_4\ZadanieDomowe_4.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          S:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"S:\Program Files\Common Files\MSVC\freeglut\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt freeglut.cpp
          freeglut.cpp
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(251): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(253): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(256): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(258): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(261): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(263): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(266): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(268): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(273): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(275): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(278): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(280): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(283): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(285): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(288): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>s:\users\shagg\documents\visual studio 2013\projects\zadaniedomowe_4\zadaniedomowe_4\freeglut.cpp(290): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
        Link:
-         S:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.exe" /INCREMENTAL /NOLOGO /LIBPATH:"S:\Program Files\Common Files\MSVC\freeglut\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.lib" /MACHINE:X86 Debug\freeglut.obj
+         S:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.exe" /INCREMENTAL /NOLOGO /LIBPATH:"S:\Program Files\Common Files\MSVC\freeglut\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.lib" /MACHINE:X86 Debug\3.obj
+         Debug\freeglut.obj
          ZadanieDomowe_4.vcxproj -> S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\Debug\ZadanieDomowe_4.exe
      1>Done Building Project "S:\Users\Shagg\documents\visual studio 2013\Projects\ZadanieDomowe_4\ZadanieDomowe_4\ZadanieDomowe_4.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.44
+Time Elapsed 00:00:01.06
