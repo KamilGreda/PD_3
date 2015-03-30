@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="freeglut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

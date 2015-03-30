@@ -49,10 +49,10 @@ class C_czolg : public C_figura
 
 public:
 
-	double angle = 0.0;
+	double angle;
 
 
-	C_czolg(double wys, double szer, double _x, double _y)
+	C_czolg(double wys, double szer, double _x, double _y, double kat)
 	{
 		x = _x;
 		y = _y;
@@ -61,6 +61,7 @@ public:
 		red = 0.4;
 		green = 0.4;
 		blue = 0.4;
+		angle = kat;
 	}
 
 	void Draw()
@@ -130,7 +131,7 @@ public:
 
 			glPushMatrix();
 			glTranslated(x, y, 0);
-			DrawRectangle(0.05, 0.05);
+			DrawRectangle(0.025, 0.025);
 			glPopMatrix();
 		
 		}
@@ -151,30 +152,51 @@ public:
 
 void C_czolg::trafiony(C_bullet& pocisk)
 {
-	if (pocisk.x > x - w / 2 && pocisk.x < x + w / 2 && pocisk.y > y - h / 2 && pocisk.y < y + (3 * h) / 4)
+	if (pocisk.x > x - w / 1.5 && pocisk.x < x + w / 1.5 && /*pocisk.y > y - h / 2*/ pocisk.y>-0.25 && pocisk.y-0.0125 < y + (3 * h) / 4)
 	{
-		red = 1;
-		green = 0;
-		blue = 0;
+		if (red == 1)//2 trafienie
+		{
+			red = 0;
+			green = 1;
+		}
+		else if (green==1) //3
+		{
+			green = 0;
+			blue = 1;
+		}
+		else if (blue == 1)//4
+		{
+			
+			red = 1;
+			green = 1;
+			blue = 1;
+
+			w = 0;
+			h = 0;
+			
+		}
+		else //1 trafienie
+		{
+			red = 1;
+			green = 0;
+			blue = 0;
+		}
+
+		
 		pocisk.czy_leci = false;
 	}
 
 }
 
-C_czolg *czolg1= new C_czolg(0.25, 0.125, -1, 0);
-C_czolg *czolg2= new C_czolg (0.20, 0.120, 1, 0);
+C_czolg *czolg1= new C_czolg(0.27, 0.127, -1, 0,0);
+C_czolg *czolg2= new C_czolg (0.20, 0.120, 1, 0, 180);
 C_bullet *bullet1=new C_bullet(*czolg1);
 C_bullet *bullet2=new C_bullet(*czolg2);
-
-
-
-
 
 bool keyStates[256]; 
 
 void utworz_powiazania()
 {	
-	czolg2->angle = 18000;
 	bullet1->czolg = czolg1;
 	bullet2->czolg = czolg2;
 	
@@ -204,7 +226,7 @@ void lec(C_bullet &bullet)
 		bullet.time += 0.01;
 	}
 
-	if (bullet.x > 3 || bullet.y > 3 || bullet.x < -4 || bullet.y < -3) //poza mapa
+	if (bullet.x > 3 || bullet.y > 3 || bullet.x < -4 || bullet.y < -0.025) //poza mapa
 		bullet.czy_leci = false;
 }
 
@@ -261,8 +283,9 @@ void keyPressed(unsigned char key, int x, int y)
 	
 	case 'c':
 	{
-	
-		if (!bullet1->czy_leci) //blokuje wystrzelenie 2 pocisku
+		if (czolg1->w==0  && czolg1->h==0); //blokuje strzal, gdy 
+
+		else if (!bullet1->czy_leci) //blokuje wystrzelenie 2 pocisku
 		{
 			bullet1->time = 0.01;
 			bullet1->czy_leci = true;
@@ -272,41 +295,46 @@ void keyPressed(unsigned char key, int x, int y)
 	}
 
 		
+
 	case 'j':
 	{
-		if (czolg1->y <3.2 && czolg1->y >-3.2)
+		if (czolg2->x >-3.2)
 			czolg2->x -= 0.01;
 		break;
 	}
 
 	case 'l':
 	{
-		if (czolg1->y <3.2 && czolg1->y >-3.2)
+		if (czolg2->x <3.2 )
 			czolg2->x += 0.01;
 		break;
 	}
 
 	case 'i':
 	{
-		czolg2->angle += 1;
+		czolg2->angle -= 1;
+		
 		break;
 	}
 
 	case 'k':
 	{
-		czolg2->angle -= 1;
+		czolg2->angle += 1;
 		break;
 	}
 
 	case 'n':
 	{
+		if (czolg2->w == 0 && czolg2->h == 0);
 
-		if (!bullet2->czy_leci) //blokuje wystrzelenie 2 pocisku
+		else if (!bullet2->czy_leci) //blokuje wystrzelenie 2 pocisku
 		{
 			bullet2->time = 0.01;
 			bullet2->czy_leci = true;
 			bullet2->kat_strzalu = czolg2->angle;
 		}
+		
+
 		break;
 	}
 	}
@@ -373,44 +401,47 @@ void keyOperations(void)
 	else
 		keyUp('n', x, y);
 }
-void draw_bg(void)
-{
-	glPushMatrix();
-	glColor3d(0, 1, 0);
-	glBegin(GL_POLYGON);
-	{
 
-		glVertex3d(3.5, 0.01, 0);
-		glVertex3d(3.5, -3.5, 0);
-		glVertex3d(-3.5, -3.5, 0);
-		glVertex3d(-3.5, 0.01, 0);
-
-	}
-	glPopMatrix();
-}
 static void display()
 {
-	
+	static bool czy_wyswietlic_info = true;
 	// wyczyszenie sceny
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 	keyOperations();
-	//draw_bg();
+
+	
 	glPushMatrix();
 	
+	if (czy_wyswietlic_info)
+	{
+		cout << "STEROWANIE: " << endl;
+		cout << "GRACZ PIERWSZY  " << endl;
+		cout << "W/S/A/D STEROWANIE  " << endl;
+		cout << "C STRZAL  " << endl;
+
+		cout << "GRACZ DRUGI  " << endl;
+		cout << "I/K/J/L STEROWANIE  " << endl;
+		cout << "N STRZAL  " << endl;
+
+		cout << "SZARY- 0 TRAFIEN " << endl;
+		cout << "CZERWONY- 1 TRAFIENIE  " << endl;
+		cout << "ZIELONY- 2 TRAFIENIA  " << endl;
+		cout << "NIEBIESKI- 3 TRAFIENIA " << endl;
+		cout << "ETERYCZNY- 4 TRAFIENIA, ZNISZCZONY! " << endl;
+		cout << "MOZNA WALCZYC WRECZ (LUFA DZIALA JAK DZIDA) " << endl;
+
+		czy_wyswietlic_info = false;
+
+	}
+
 	for ( int i=0; i < vec_figur.size(); i++)
 	{
 		vec_figur[i]->Draw();
 	}
-
-	
-	
-
-	
 	
 	glPopMatrix();
 
-
+	cout << bullet2->y << " " << czolg1->y << endl;
 
 	glutSwapBuffers();
 }
@@ -418,9 +449,6 @@ static void display()
 
 int main(int argc, char *argv[])
 {
-	
-
-
 	utworz_powiazania();
 	vec_figur.push_back(czolg1);
 	vec_figur.push_back(czolg2);
